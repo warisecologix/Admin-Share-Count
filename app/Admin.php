@@ -2,15 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function stock(){
-        return $this->belongsTo(Stock::class);
-    }
+    use Notifiable;
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 }
