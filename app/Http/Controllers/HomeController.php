@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\UserStockLogs;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function users()
     {
-        $logs = UserStockLogs::all();
-        return view('home',compact('logs'));
+        $users = User::all();
+        return view('users', compact('users'));
+    }
+
+    public function index($id)
+    {
+        $logs = UserStockLogs::where('user_id', $id)->get();
+        return view('home', compact('logs'));
     }
 }
