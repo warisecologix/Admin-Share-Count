@@ -16,7 +16,8 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/track-shortage.css') }}" rel="stylesheet">
@@ -32,32 +33,23 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-        </ul>
-        {{--            <ul class="navbar-nav ">--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link {{ (request()->is('/')) ? 'active-menu' : '' }}" href="{{route('register')}}">Home--}}
-        {{--                        <span class="sr-only">(current)</span></a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link" href="{{route('submit')}}">Submit</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link" href="#">Verify</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link {{ (request()->is('faq')) ? 'active-menu' : '' }}"--}}
-        {{--                       href="{{route('faq')}}">FAQ</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a href="https://www.patreon.com/TrackShortage" target="_blank" class="btn btn-donate">--}}
-        {{--                        Donate--}}
-        {{--                    </a>--}}
-        {{--                </li>--}}
-        {{--            </ul>--}}
+
+{{--        <ul class="navbar-nav ">--}}
+{{--          --}}
+{{--        </ul>--}}
         <ul class="navbar-nav ml-auto">
             @guest
             @else
+                <li class="nav-item">
+                    <a class="nav-link {{ (request()->is('/')) ? 'active-menu' : '' }}" href="/">Home
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('admin_stocks')}}">Stock List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('admin_logs')}}">Logs List</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
