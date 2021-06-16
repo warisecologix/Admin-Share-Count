@@ -39,7 +39,6 @@ class StockController extends Controller
                 $stocks = $stocks->where('admin_verify', 0)->orWhere('admin_verify', 1);
             }
         }
-
         if (!empty($start) && !empty($end)) {
             $start = $this->dateFormat($start);
             $end = $this->dateFormat($end);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Admin\StockLogsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,6 +18,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('admin')->group(function () {
         Route::get('/stocks', [StockController::class, 'index']);
         Route::post('/stocks', [StockController::class, 'filter'])->name('filter');
+        Route::get('/logs', [StockLogsController::class, 'index']);
+        Route::post('/logs', [StockLogsController::class, 'filter'])->name('logs_filter');
 
     });
 
