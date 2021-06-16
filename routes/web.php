@@ -16,6 +16,8 @@ Route::redirect('/', 'login');
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('admin')->group(function () {
         Route::get('/stocks', [StockController::class, 'index']);
+        Route::post('/stocks', [StockController::class, 'filter'])->name('filter');
+
     });
 
 

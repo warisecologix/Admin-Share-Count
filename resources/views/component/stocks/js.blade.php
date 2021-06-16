@@ -1,8 +1,14 @@
 @section('js')
     <script src="{{asset('js/jquery3.1.min.js')}}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script type="text/javascript">
+        $('.daterange').daterangepicker();
+        $('#daterange').val('');
+    </script>
     <script>
         function updateStatus(id) {
-            if(!confirm("Are you sure?")){
+            if (!confirm("Are you sure?")) {
                 return false;
             }
             var formData = {

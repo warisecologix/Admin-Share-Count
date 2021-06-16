@@ -24,5 +24,11 @@ trait Generic
             return $file_name;
         }
     }
+    public function dateFormat($originalDate)
+    {
+        $newDate = date($originalDate);
+        $newDate = \Carbon\Carbon::parse($newDate);
+        return $newDate;
+    }
 
 }

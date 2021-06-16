@@ -5,7 +5,6 @@
         <table class="table table-bordered">
             <thead>
             <tr role="row" class="heading">
-                <th>Id</th>
                 <th>User Name</th>
                 <th>Company Name</th>
                 <th>No of Shares</th>
@@ -18,7 +17,6 @@
             <tbody>
             @foreach($stocks as $stock)
                 <tr id="stock{{$loop->index}}">
-                    <td>{{$stock->id ?? "-"}}</td>
                     <td>{{$stock->user->first_name . " " . $stock->user->last_name  ?? "-"}}</td>
                     <td>{{$stock->company->company_name  ?? "-"}}</td>
                     <td>{{$stock->no_shares_own  ?? "-"}}</td>

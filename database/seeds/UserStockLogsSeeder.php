@@ -26,6 +26,8 @@ class UserStockLogsSeeder extends Seeder
                 'country' => $faker->country,
                 'country_code' => $faker->countryCode,
                 'stock_id' => rand(1, 1000),
+                'created_at' => $faker->dateTimeBetween('-5 years', now()),
+                'updated_at' => $faker->dateTimeBetween('-5 years', now()),
             ]);
         }
     }

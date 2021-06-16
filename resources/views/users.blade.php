@@ -5,7 +5,6 @@
         <table class="table table-bordered">
             <thead>
             <tr role="row" class="heading">
-                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
@@ -20,17 +19,18 @@
                 <tr>
                     <td>
                         <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">
-                            {{$user->id ?? "-"}}
+                            {{$user->first_name . " " . $user->last_name  ?? "-"}}
                         </a>
                     </td>
                     <td>
-                        {{$user->first_name . " " . $user->last_name  ?? "-"}}
+                        <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">
+                            {{$user->email ?? "-"}}
+                        </a>
                     </td>
                     <td>
-                        {{$user->email ?? "-"}}
-                    </td>
-                    <td>
-                        {{$user->phone_no ?? "-"}}
+                        <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">
+                            {{$user->phone_no ?? "-"}}
+                        </a>
                     </td>
                     <td>
                         <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">

@@ -5,7 +5,6 @@
         <table class="table table-bordered">
             <thead >
             <tr role="row" class="heading">
-                <th>Id</th>
                 <th>User Name</th>
                 <th>Stock ID</th>
                 <th>IP Address</th>
@@ -23,7 +22,6 @@
             <tbody>
             @foreach($logs as $log)
                 <tr>
-                    <td>{{$log->id ?? "-"}}</td>
                     <td>{{$log->user->first_name . " " . $log->user->last_name  ?? "-"}}</td>
                     <td>{{$log->stock_id ?? "-"}}</td>
                     <td>{{$log->user_ip ?? "-"}}</td>
