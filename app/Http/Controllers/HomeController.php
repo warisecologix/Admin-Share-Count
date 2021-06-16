@@ -42,6 +42,23 @@ class HomeController extends Controller
         return view('stocks', compact('stocks'));
     }
 
+    public function stocks_filter($type, $value)
+    {
+        $stocks = [];
+        if($type == "all"){
+            $stocks = Stock::where('user_id' , $value)->get();
+        }
+        else if($type == "verify"){
+            $stocks = Stock::where('user_id' , $value)->where('admin_verify', 1)->get();
+        }
+        else if($type == "unverify"){
+            $stocks = Stock::where('user_id' , $value)->where('admin_verify', 0)->get();
+        }
+
+
+        return view('stocks', compact('stocks'));
+    }
+
     public function update_stock_status(Request $request)
     {
         $stock = Stock::find($request->stock_id);
@@ -52,7 +69,7 @@ class HomeController extends Controller
         $stock->admin_verify = $status;
         $stock->save();
         return response()->json([
-           'stock' => $stock
+            'stock' => $stock
         ]);
 
     }

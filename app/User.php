@@ -56,4 +56,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function getTotalSharesAttribute()
+    {
+        return Stock::where('user_id', $this->id)->get()->sum('no_shares_own');
+    }
+
+    public function getVerifySharesAttribute()
+    {
+        return Stock::where('user_id', $this->id)->where('admin_verify', 1)->get()->sum('no_shares_own');
+    }
+
+    public function getUnVerifySharesAttribute()
+    {
+        return Stock::where('user_id', $this->id)->where('admin_verify', 0)->get()->sum('no_shares_own');
+    }
 }
