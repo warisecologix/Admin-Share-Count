@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\StockController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,10 +10,15 @@ Route::auth([
     'verify' => false,
 ]);
 
-Route::redirect('/','login');
+Route::redirect('/', 'login');
 
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/stocks', [StockController::class, 'index']);
+    });
+
+
     Route::get('/users', 'HomeController@users')->name('users');
     Route::get('/stocks/{id}/logs/', 'HomeController@index')->name('stocks_logs');
     Route::get('/stocks/list', 'HomeController@stock')->name('stocks');

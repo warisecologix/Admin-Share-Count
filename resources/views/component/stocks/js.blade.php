@@ -2,6 +2,9 @@
     <script src="{{asset('js/jquery3.1.min.js')}}"></script>
     <script>
         function updateStatus(id) {
+            if(!confirm("Are you sure?")){
+                return false;
+            }
             var formData = {
                 stock_id: id,
                 "_token": "{{ csrf_token() }}",
