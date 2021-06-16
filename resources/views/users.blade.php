@@ -1,58 +1,56 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-            <tr role="row" class="heading">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Total Shares</th>
-                <th>Verify Shares</th>
-                <th>Un-Verify Shares</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody id="divid">
-            @foreach($users as $user)
-                <tr>
-                    <td>
-                        <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">
-                            {{$user->id ?? "-"}}
-                        </a>
-                    </td>
-                    <td>
-                        {{$user->first_name . " " . $user->last_name  ?? "-"}}
-                    </td>
-                    <td>
-                        {{$user->email ?? "-"}}
-                    </td>
-                    <td>
-                        {{$user->phone_no ?? "-"}}
-                    </td>
-                    <td>
-                        <a href="{{route('stocks_filter',['type' => 'all', 'value' => $user->id])}}">
-                            {{$user->total_shares ?? "-"}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{route('stocks_filter',['type' => 'verify', 'value' => $user->id])}}">
-                            {{$user->verify_shares ?? "-"}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{route('stocks_filter',['type' => 'unverify', 'value' => $user->id])}}">
-                            {{$user->un_verify_shares ?? "-"}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{route('stocks_logs',$user->id)}}" class="btn btn-success">View Stock Logs</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel 7 Datatables Example - Nicesnippets.com</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</head>
+<body class="bg-dark">
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mt-3 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Laravel 7 Datatables Example -Nicesnippets.com</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th width="100px">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-@endsection
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('ajax_user') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'first_name', name: 'first_name'},
+                {data: 'email', name: 'email'},
+            ]
+        });
+    });
+</script>
+</html>
