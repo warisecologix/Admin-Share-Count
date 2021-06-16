@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,7 +10,8 @@ Route::auth([
     'verify' => false,
 ]);
 
-Route::redirect('/','login');
+Route::redirect('/', 'login');
+Route::get('/admin', [AdminController::class, 'index']);
 
 
 Route::group(['middleware' => 'auth'], function () {
