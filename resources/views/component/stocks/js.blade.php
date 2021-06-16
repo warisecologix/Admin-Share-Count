@@ -13,7 +13,7 @@
                 data: formData,
                 dataType: 'json',
                 success: function (data) {
-
+                    window.location.href = window.location.href
                 },
             });
         }

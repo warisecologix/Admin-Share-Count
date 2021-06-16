@@ -15,7 +15,7 @@
                 <th>Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="divid">
             @foreach($users as $user)
                 <tr>
                     <td>
