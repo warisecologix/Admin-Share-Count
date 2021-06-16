@@ -19,7 +19,7 @@
                     <td>{{$user->first_name . " " . $user->last_name  ?? "-"}}</td>
                     <td>{{$user->email ?? "-"}}</td>
                     <td>{{$user->phone_no ?? "-"}}</td>
-                    <td><a href="{{route('stocks',$user->id)}}" class="btn btn-success">View Stock Logs</a></td>
+                    <td><a href="{{route('stocks_logs',$user->id)}}" class="btn btn-success">View Stock Logs</a></td>
                 </tr>
             @endforeach
             </tbody>
