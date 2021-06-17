@@ -36,7 +36,7 @@ class StockController extends Controller
             if ($status != 2) {
                 $stocks = $stocks->where('admin_verify', $status);
             } else {
-                $stocks = $stocks->where('admin_verify', 0)->orWhere('admin_verify', 1);
+                $stocks = $stocks->where('admin_verify','<=', 1);
             }
         }
         if (!empty($start) && !empty($end)) {

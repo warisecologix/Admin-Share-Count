@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class StockLogsController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $logs = UserStockLogs::all();
-        return view('admin.logs.index',compact('logs'));
+        return view('admin.logs.index', compact('logs'));
     }
 
 
@@ -26,19 +27,19 @@ class StockLogsController extends Controller
         $end = $split[1] ?? "";
         $logs = new UserStockLogs();
         if ($company != 0) {
-            $logs = $logs->where('user_id', $user->id);
-        }
-        if ($status != 3) {
-            if ($status != 2) {
-                $logs = $logs->where('admin_verify', $status);
+            if ($company != 3) {
+                $logs = $logs->where('company_id', $company);
             } else {
-                $logs = $logs->where('admin_verify', 0)->orWhere('admin_verify', 1);
+                $logs = $logs->where('company_id','<=', 2);
             }
+        }
+        if ($country_code != "NOT") {
+            $logs = $logs->where('country_code', $country_code);
         }
         if (!empty($start) && !empty($end)) {
             $start = $this->dateFormat($start);
             $end = $this->dateFormat($end);
-            $logs = $logs->whereBetween('date_purchase', [$start, $end]);
+            $logs = $logs->whereBetween('created_at', [$start, $end]);
         }
         $logs = $logs->get();
         return view('admin.logs.index', compact('logs'));
