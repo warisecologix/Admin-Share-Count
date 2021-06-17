@@ -17,6 +17,7 @@ class UserStockLogsSeeder extends Seeder
             \Illuminate\Support\Facades\DB::table('user_stock_logs')->insert([
                 'user_id' => rand(1, 100),
                 'user_ip' => $faker->ipv6,
+                'company_id' => rand(1, 2),
                 'session_id' => $faker->streetAddress,
                 'user_mac' => $faker->macAddress,
                 'location' => $faker->address,

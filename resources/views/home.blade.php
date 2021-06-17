@@ -24,7 +24,7 @@
             @foreach($logs as $log)
                 <tr>
                     <td>{{$log->user->first_name . " " . $log->user->last_name  ?? "-"}}</td>
-                    <td>{{$log->stock->company->company_name ?? "-"}}</td>
+                    <td>{{$log->company->company_name ?? "-"}}</td>
                     <td>{{$log->stock_id ?? "-"}}</td>
                     <td>{{$log->user_ip ?? "-"}}</td>
                     <td>{{$log->location ?? "-"}}</td>

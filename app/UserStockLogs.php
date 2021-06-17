@@ -14,6 +14,10 @@ class UserStockLogs extends Model
         return $this->belongsTo(Stock::class);
     }
 
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
+
     public function getCustomizeDateAttribute($date)
     {
         $timestamp = strtotime($this->created_at);

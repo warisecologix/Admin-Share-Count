@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4 class="text-center"> Total filter records {{count($stocks)}}</h4>
+        <h4 class="text-center"> Total records {{count($stocks)}}</h4>
         <form method="post" action="{{route('filter')}}">
             @csrf
             <div class="row">
