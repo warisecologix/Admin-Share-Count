@@ -354,6 +354,9 @@
 @section('js')
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+
     <script>
         $(function () {
             $("#user_logs_table").DataTable({
@@ -365,12 +368,8 @@
             $('.select2').select2()
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
-            })
-        });
-
-        $(document).ready(function (){
+            });
             $('#reservation').daterangepicker();
-        })
-
+        });
     </script>
 @stop

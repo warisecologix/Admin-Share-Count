@@ -2,6 +2,7 @@
 @section('css')
     <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
 @show
 @section('content')
 
@@ -45,8 +46,8 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <input type="text" class="form-control daterange" name="daterange"
-                                                       id="daterange"/>
+                                                <input type="text" class="form-control daterange"  name="daterange"
+                                                       id="reservation"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
@@ -125,6 +126,10 @@
 @endsection
 @section('js')
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+
     <script>
         $(function () {
             $("#user_logs_table").DataTable({
@@ -136,7 +141,8 @@
             $('.select2').select2()
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
-            })
+            });
+            $('#reservation').daterangepicker();
         });
     </script>
 @stop
