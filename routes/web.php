@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\StockLogsController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ Route::redirect('/', 'login');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('admin');
         Route::get('/stocks', [StockController::class, 'index'])->name('admin_stocks');
         Route::post('/stocks', [StockController::class, 'filter'])->name('filter');
         Route::get('/logs', [StockLogsController::class, 'index'])->name('admin_logs');
