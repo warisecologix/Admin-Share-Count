@@ -24,18 +24,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id)
-    {
-        $logs = UserStockLogs::where('user_id', $id)->get();
-        return view('home', compact('logs'));
-    }
+
 
     public function stock()
     {
         $stocks = Stock::all();
         return view('stocks', compact('stocks'));
     }
-
-
-
 }

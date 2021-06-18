@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Stock;
 use App\UserStockLogs;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class StockLogsController extends Controller
 {
@@ -15,7 +15,6 @@ class StockLogsController extends Controller
         $logs = UserStockLogs::all();
         return view('admin.logs.index', compact('logs'));
     }
-
 
     public function filter(Request $request)
     {
@@ -44,4 +43,41 @@ class StockLogsController extends Controller
         $logs = $logs->get();
         return view('admin.logs.index', compact('logs'));
     }
+
+    public function user_logs_filter($id)
+    {
+        return view('admin.logs.user_logs_filter', compact('id'));
+    }
+
+
+    public function logs_filter_data_table(Request $request)
+    {
+
+        $id = $request->id;
+        $data = [];
+        $data =  UserStockLogs::where('user_id', $id)->get();
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('user_name', function (UserStockLogs $logs) {
+                    return $logs->user->first_name . ' ' . $logs->user->last_name;
+                })
+                ->addColumn('company_name', function (UserStockLogs $logs) {
+                    return $logs->company->company_name;
+                })
+                ->addColumn('stock_id', '{{$stock_id}}')
+                ->addColumn('user_ip', '{{$user_ip}}')
+                ->addColumn('location', '{{$location}}')
+                ->addColumn('machine_name', '{{$machine_name}}')
+                ->addColumn('browser', '{{$browser}}')
+                ->addColumn('os', '{{$os}}')
+                ->addColumn('longitude', '{{$longitude}}')
+                ->addColumn('latitude', '{{$latitude}}')
+                ->addColumn('country', '{{$country}}')
+                ->addColumn('country_code', '{{$country_code}}')
+                ->rawColumns(['user_name', 'company_name'])
+                ->make(true);
+        }
+    }
+
 }

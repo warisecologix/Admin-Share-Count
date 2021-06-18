@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\Generic;
 use App\Stock;
 use App\User;
+use App\UserStockLogs;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -112,4 +113,6 @@ class StockController extends Controller
         ]);
 
     }
+
+
 }

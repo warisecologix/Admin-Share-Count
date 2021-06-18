@@ -28,9 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users-list', [UserController::class, 'data_table'])->name('users_data_table');
 
-    Route::get('/stocks/{id}/logs/', 'HomeController@index')->name('stocks_logs');
-    Route::get('/stocks/list', 'HomeController@stock')->name('stocks');
-
+    Route::get('/stocks/{id}/logs/', [StockLogsController::class, 'user_logs_filter'])->name('stocks_logs');
+    Route::post('/user-stocks-datatable',  [StockLogsController::class, 'logs_filter_data_table'])->name('logs_filter_data_table');
 
     Route::get('/stocks/{type}/{value}/list',  [StockController::class, 'user_stock_filter'])->name('stocks_filter');
     Route::post('/user-stocks-filter',  [StockController::class, 'stocks_filter_data_table'])->name('stocks_filter_data_table');
