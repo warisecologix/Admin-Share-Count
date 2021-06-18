@@ -27,8 +27,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users-list', [UserController::class, 'data_table'])->name('users_data_table');
+
     Route::get('/stocks/{id}/logs/', 'HomeController@index')->name('stocks_logs');
     Route::get('/stocks/list', 'HomeController@stock')->name('stocks');
-    Route::get('/stocks/{type}/{value}/list', 'HomeController@stocks_filter')->name('stocks_filter');
+
+
+    Route::get('/stocks/{type}/{value}/list',  [StockController::class, 'user_stock_filter'])->name('stocks_filter');
+    Route::post('/user-stocks-filter',  [StockController::class, 'stocks_filter_data_table'])->name('stocks_filter_data_table');
 });
-Route::post('/update/stock/status', 'HomeController@update_stock_status')->name('update_stock_status');
+
+Route::post('/update/stock/status',  [StockController::class, 'update_stock_status'])->name('update_stock_status');
