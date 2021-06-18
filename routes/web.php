@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\StockLogsController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,9 +25,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/logs', [StockLogsController::class, 'filter'])->name('logs_filter');
 
     });
-
-
-    Route::get('/users', 'HomeController@users')->name('users');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users-list', [UserController::class, 'data_table'])->name('users_data_table');
     Route::get('/stocks/{id}/logs/', 'HomeController@index')->name('stocks_logs');
     Route::get('/stocks/list', 'HomeController@stock')->name('stocks');
     Route::get('/stocks/{type}/{value}/list', 'HomeController@stocks_filter')->name('stocks_filter');

@@ -71,4 +71,11 @@ class User extends Authenticatable
     {
         return Stock::where('user_id', $this->id)->where('admin_verify', 0)->get()->sum('no_shares_own');
     }
+
+
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name ;
+    }
+
 }
