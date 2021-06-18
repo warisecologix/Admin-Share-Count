@@ -65,6 +65,8 @@
                     {data: 'verify_shares', name: 'verify_shares'},
                     {data: 'un_verify_shares', name: 'un_verify_shares'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: "first_name", name: "first_name", visible: false },
+                    {data: "last_name", name: "last_name", visible: false }
                 ]
             });
 
