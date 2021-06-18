@@ -48,13 +48,18 @@
 @section('js')
     <script type="text/javascript">
         $(function () {
-            var table = $('#user_logs_table').DataTable({
+            $('#user_logs_table').DataTable({
                 processing: true,
                 serverSide: true,
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["csv", "excel",  "print"],
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel',
+                    'pdf',
+                    'print'
+                ],
                 ajax: "{{ route('users_data_table') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
@@ -65,9 +70,9 @@
                     {data: 'verify_shares', name: 'verify_shares'},
                     {data: 'un_verify_shares', name: 'un_verify_shares'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: "first_name", name: "first_name", visible: false },
-                    {data: "last_name", name: "last_name", visible: false }
-                ]
+                    {data: "first_name", name: "first_name", visible: false},
+                    {data: "last_name", name: "last_name", visible: false}
+                ],
             });
 
         });
