@@ -102,6 +102,7 @@
                     {data: 'date_purchase', name: 'date_purchase'},
                     {data: 'admin_verify', name: 'admin_verify'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+
                 ],
             });
 
