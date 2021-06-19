@@ -22,7 +22,7 @@
                                 <h3 class="card-title">Filters</h3>
                             </div>
                             <div class="card-body">
-                                <form  action="javascript:void(0);">
+                                <form action="javascript:void(0);">
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -35,7 +35,7 @@
                                                 <select class="form-control select2bs4" name="status" id="status">
                                                     <option value="3" selected>Select Status</option>
                                                     <option value="2">All</option>
-                                                    <option value="1" >Verify</option>
+                                                    <option value="1">Verify</option>
                                                     <option value="0">Un-Verify</option>
                                                 </select>
                                             </div>
@@ -50,7 +50,8 @@
                                             <button type="button" class="btn btn-success" onclick="reDrawDataTable()">
                                                 Search
                                             </button>
-                                            <button type="submit" class="btn btn-info"> Clear</button>
+                                            <button type="button" onclick="resetFilter()" class="btn btn-info"> Clear
+                                            </button>
 
                                         </div>
                                     </div>
@@ -98,6 +99,7 @@
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script>
         let stock_table;
+
         function reDrawDataTable() {
             $('#stocks_table').DataTable().clear().destroy();
             stocks_filter_data_table()
@@ -131,44 +133,50 @@
         }
     </script>
     <script type="text/javascript">
-     function stocks_filter_data_table() {
-         var formData = {
-             daterange: $("#reservation").val(),
-             email: $("#email").val(),
-             status: $("#status").val(),
-             "_token": "{{ csrf_token() }}",
-         };
-         console.log("--*-*-*-*-*-*-*-*-*-*-*")
-         console.log(formData)
-         stock_table = $('#stocks_table').DataTable({
-             processing: true,
-             serverSide: true,
-             "responsive": true,
-             "lengthChange": false,
-             "autoWidth": false,
-             // dom: 'Bfrtip',
-             // buttons: [
-             //     'excel',
-             //     'pdf',
-             //     'print'
-             // ],
-             ajax: {
-                 url: "{{route('stocks_filter_data_table')}}",
-                 type: "POST",
-                 data: formData,
-             },
-             columns: [
-                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                 {data: 'user_name', name: 'user_name'},
-                 {data: 'company_name', name: 'company_name'},
-                 {data: 'no_shares_own', name: 'no_shares_own'},
-                 {data: 'brokage_name', name: 'brokage_name'},
-                 {data: 'date_purchase', name: 'date_purchase'},
-                 {data: 'admin_verify', name: 'admin_verify'},
-                 {data: 'action', name: 'action', orderable: false, searchable: false},
-             ],
-         });
-     }
-     stocks_filter_data_table();
+        function resetFilter() {
+            $("#reservation").val('');
+            $("#email").val('');
+            $("#status").val('3');
+            reDrawDataTable();
+        }
+
+        function stocks_filter_data_table() {
+            var formData = {
+                daterange: $("#reservation").val(),
+                email: $("#email").val(),
+                status: $("#status").val(),
+                "_token": "{{ csrf_token() }}",
+            };
+            stock_table = $('#stocks_table').DataTable({
+                processing: true,
+                serverSide: true,
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                // dom: 'Bfrtip',
+                // buttons: [
+                //     'excel',
+                //     'pdf',
+                //     'print'
+                // ],
+                ajax: {
+                    url: "{{route('stocks_filter_data_table')}}",
+                    type: "POST",
+                    data: formData,
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'user_name', name: 'user_name'},
+                    {data: 'company_name', name: 'company_name'},
+                    {data: 'no_shares_own', name: 'no_shares_own'},
+                    {data: 'brokage_name', name: 'brokage_name'},
+                    {data: 'date_purchase', name: 'date_purchase'},
+                    {data: 'admin_verify', name: 'admin_verify'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+            });
+        }
+
+        stocks_filter_data_table();
     </script>
 @stop
