@@ -22,7 +22,7 @@
                                 <h3 class="card-title">Filters</h3>
                             </div>
                             <div class="card-body">
-                                <form action="javascript:void(0);">
+                                <form action="javascript:void(0);" autocomplete="off">
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="form-group">
@@ -72,6 +72,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>User Name</th>
+                                        <th>Email</th>
                                         <th>Company Name</th>
                                         <th>No of Shares</th>
                                         <th>Brokage Name</th>
@@ -97,6 +98,19 @@
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+    <script type="text/javascript">
+        var route = "{{ route('autocomplete') }}";
+        $('#email').typeahead({
+            source: function (query, process) {
+                return $.get(route, {
+                    query: query
+                }, function (data) {
+                    return process(data);
+                });
+            }
+        });
+    </script>
     <script>
         let stock_table;
 
@@ -168,6 +182,7 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                     {data: 'user_name', name: 'user_name'},
+                    {data: 'email', name: 'email'},
                     {data: 'company_name', name: 'company_name'},
                     {data: 'no_shares_own', name: 'no_shares_own'},
                     {data: 'brokage_name', name: 'brokage_name'},

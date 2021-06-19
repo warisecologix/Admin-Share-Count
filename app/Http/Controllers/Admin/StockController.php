@@ -47,6 +47,9 @@ class StockController extends Controller
                 ->addColumn('user_name', function (Stock $stock) {
                     return $stock->user->first_name . ' ' . $stock->user->last_name;
                 })
+                ->addColumn('email', function (Stock $stock) {
+                    return $stock->user->email;
+                })
                 ->addColumn('company_name', function (Stock $stock) {
                     return $stock->company->company_name;
                 })
@@ -61,7 +64,7 @@ class StockController extends Controller
                         return '<button class="btn btn-success" onclick="updateStatus(' . $stock->id . ')">Un-Verify</button>';
                     }
                 })
-                ->rawColumns(['action', 'user_name', 'company_name'])
+                ->rawColumns(['action', 'user_name', 'company_name', 'email'])
                 ->make(true);
         }
     }
@@ -101,6 +104,9 @@ class StockController extends Controller
                 ->addColumn('user_name', function (Stock $stock) {
                     return $stock->user->first_name . ' ' . $stock->user->last_name;
                 })
+                ->addColumn('email', function (Stock $stock) {
+                    return $stock->user->email;
+                })
                 ->addColumn('company_name', function (Stock $stock) {
                     return $stock->company->company_name;
                 })
@@ -115,7 +121,7 @@ class StockController extends Controller
                         return '<button class="btn btn-success" onclick="updateStatus(' . $stock->id . ')">Un-Verify</button>';
                     }
                 })
-                ->rawColumns(['action', 'user_name', 'company_name'])
+                ->rawColumns(['action', 'user_name', 'company_name', 'email'])
                 ->make(true);
         }
     }

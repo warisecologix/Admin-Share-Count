@@ -27,6 +27,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>User Name</th>
+                                        <th>Email</th>
                                         <th>Company Name</th>
                                         <th>No of Shares</th>
                                         <th>Brokage Name</th>
@@ -94,6 +95,7 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                     {data: 'user_name', name: 'user_name'},
+                    {data: 'email', name: 'email'},
                     {data: 'company_name', name: 'company_name'},
                     {data: 'no_shares_own', name: 'no_shares_own'},
                     {data: 'brokage_name', name: 'brokage_name'},

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\StockLogsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\TypeHead\EmailTypeHeadController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,3 +40,5 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::post('/update/stock/status',  [StockController::class, 'update_stock_status'])->name('update_stock_status');
+
+Route::get('/autocomplete-search', [EmailTypeHeadController::class, 'auto_complete_search'])->name('autocomplete');
