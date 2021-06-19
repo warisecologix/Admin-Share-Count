@@ -29,7 +29,6 @@ class StockController extends Controller
 
     public function stocks_filter_data_table(Request $request)
     {
-
         $email = $request->email;
         $status = $request->status;
         $daterange = $request->daterange;
@@ -41,9 +40,6 @@ class StockController extends Controller
             $user = User::where('email', $email)->get()->first();
             if ($user) {
                 $stocks = $stocks->where('user_id', $user->id);
-            } else {
-                $stocks = [];
-                return view('admin.stocks.index', compact('stocks'));
             }
         }
         if ($status != 3) {
@@ -58,7 +54,7 @@ class StockController extends Controller
             $end = $this->dateFormat($end);
             $stocks = $stocks->whereBetween('date_purchase', [$start, $end]);
         }
-        $data = $stocks->get();
+        $data = $stocks->latest()->get();
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()

@@ -72,7 +72,7 @@
                 //     'print'
                 // ],
                 ajax: {
-                    url: "{{route('logs_filter_data_table')}}",
+                    url: "{{route('user_logs_filter_data_table')}}",
                     type: "POST",
                     data: formData,
                 },

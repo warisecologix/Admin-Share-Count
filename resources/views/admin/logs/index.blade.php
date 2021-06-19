@@ -1,5 +1,8 @@
 @extends('layouts.admin')
+@section('css')
+@show
 @section('content')
+
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -18,12 +21,12 @@
                             <h3 class="card-title">Filters</h3>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="{{route('logs_filter')}}">
+                            <form>
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="form-group">
-                                            <select class="form-control select2bs4" name="company">
+                                            <select class="form-control select2bs4" name="company" id="company">
                                                 <option value="0">Select Company</option>
                                                 <option value="3">All</option>
                                                 <option value="1">GME</option>
@@ -261,12 +264,13 @@
                                                 <i class="far fa-calendar-alt"></i>
                                               </span>
                                             </div>
-                                            <input type="text" class="form-control float-right" name="daterange" id="reservation">
+                                            <input type="text" class="form-control float-right" name="daterange"
+                                                   id="reservation">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="submit" class="btn btn-success"> Search</button>
-                                        <button type="submit" class="btn btn-info"> Clear</button>
+                                        <button type="button" class="btn btn-success" onclick="reDrawDataTable()"> Search</button>
+                                        <button type="button" class="btn btn-info" onclick="resetFilter()"> Clear</button>
                                     </div>
                                 </div>
                             </form>
@@ -274,7 +278,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -283,9 +286,10 @@
                                 <h3 class="card-title">Stock Logs Details</h3>
                             </div>
                             <div class="card-body">
-                                <table id="user_logs_table" class="table table-bordered table-striped">
+                                <table id="logs_table" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>User Name</th>
                                         <th>Company</th>
                                         <th>Stock ID</th>
@@ -298,45 +302,11 @@
                                         <th>Latitude</th>
                                         <th>Country</th>
                                         <th>Country Code</th>
-                                        <th>Created At</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="divid">
-                                    @foreach($logs as $log)
-                                        <tr>
-                                            <td>{{$log->user->first_name . " " . $log->user->last_name  ?? "-"}}</td>
-                                            <td>{{$log->company->company_name ?? "-"}}</td>
-                                            <td>{{$log->stock_id ?? "-"}}</td>
-                                            <td>{{$log->user_ip ?? "-"}}</td>
-                                            <td>{{$log->location ?? "-"}}</td>
-                                            <td>{{$log->machine_name ?? "-"}}</td>
-                                            <td>{{$log->browser ?? "-"}}</td>
-                                            <td>{{$log->os ?? "-"}}</td>
-                                            <td>{{$log->longitude ?? "-"}}</td>
-                                            <td>{{$log->latitude ?? "-"}}</td>
-                                            <td>{{$log->country ?? "-"}}</td>
-                                            <td>{{$log->country_code ?? "-"}}</td>
-                                            <td>{{$log->customize_date ?? "-"}}</td>
-                                        </tr>
-                                    @endforeach
+                                    <tbody>
+
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>User Name</th>
-                                        <th>Company</th>
-                                        <th>Stock ID</th>
-                                        <th>IP Address</th>
-                                        <th>Location</th>
-                                        <th>Machine Name</th>
-                                        <th>Browser</th>
-                                        <th>Operating System</th>
-                                        <th>Longitude</th>
-                                        <th>Latitude</th>
-                                        <th>Country</th>
-                                        <th>Country Code</th>
-                                        <th>Created At</th>
-                                    </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -351,20 +321,68 @@
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-
-    <script>
-        $(function () {
-            $("#user_logs_table").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["csv", "excel", "print"]
-            }).buttons().container().appendTo('#user_logs_table_wrapper .col-md-6:eq(0)');
-        });
+    <script type="text/javascript">
+        function resetFilter() {
+            $("#reservation").val('');
+            $("#company").val('');
+            $("#country_code").val('3');
+            reDrawDataTable();
+        }
+        function reDrawDataTable() {
+            $('#logs_table').DataTable().clear().destroy();
+            logs_filter_data_table()
+        }
         $(function () {
             $('.select2').select2()
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             });
             $('#reservation').daterangepicker();
+            $("#reservation").val('');
         });
+
+        function logs_filter_data_table() {
+            var formData = {
+                daterange: $("#reservation").val(),
+                company: $("#company").val(),
+                country_code: $("#country_code").val(),
+                "_token": "{{ csrf_token() }}",
+            };
+            $('#logs_table').DataTable({
+                processing: true,
+                serverSide: true,
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+                // dom: 'Bfrtip',
+                // buttons: [
+                //     'excel',
+                //     'pdf',
+                //     'print'
+                // ],
+                ajax: {
+                    url: "{{route('logs_filter_data_table')}}",
+                    type: "POST",
+                    data: formData,
+                },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'user_name', name: 'user_name'},
+                    {data: 'company_name', name: 'company_name'},
+                    {data: 'stock_id', name: 'stock_id'},
+                    {data: 'user_ip', name: 'user_ip'},
+                    {data: 'location', name: 'location'},
+                    {data: 'machine_name', name: 'machine_name'},
+                    {data: 'browser', name: 'browser'},
+                    {data: 'os', name: 'os'},
+                    {data: 'longitude', name: 'longitude'},
+                    {data: 'latitude', name: 'latitude'},
+                    {data: 'country', name: 'country'},
+                    {data: 'country_code', name: 'country_code'},
+                ],
+            });
+        }
+
+        logs_filter_data_table()
     </script>
 @stop
