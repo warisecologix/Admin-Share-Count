@@ -9,6 +9,7 @@ use App\User;
 use App\UserStockLogs;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -18,12 +19,17 @@ class StockController extends Controller
 
     public function index()
     {
-        $stocks = Stock::all();
-        return view('admin.stocks.index', compact('stocks'));
+        return view('admin.stocks.index');
     }
 
-    public function filter(Request $request)
+    public function user_stock_filter($type, $value)
     {
+        return view('admin.stocks.user_stock_filter', compact('type', 'value'));
+    }
+
+    public function stocks_filter_data_table(Request $request)
+    {
+
         $email = $request->email;
         $status = $request->status;
         $daterange = $request->daterange;
@@ -52,28 +58,7 @@ class StockController extends Controller
             $end = $this->dateFormat($end);
             $stocks = $stocks->whereBetween('date_purchase', [$start, $end]);
         }
-        $stocks = $stocks->get();
-        return view('admin.stocks.index', compact('stocks'));
-    }
-
-    public function user_stock_filter($type, $value)
-    {
-        return view('admin.stocks.user_stock_filter', compact('type', 'value'));
-    }
-
-    public function stocks_filter_data_table(Request $request)
-    {
-
-        $type = $request->type;
-        $value = $request->value;
-        $data = [];
-        if ($type == "all") {
-            $data = Stock::where('user_id', $value)->get();
-        } else if ($type == "verify") {
-            $data = Stock::where('user_id', $value)->where('admin_verify', 1)->get();
-        } else if ($type == "unverify") {
-            $data = Stock::where('user_id', $value)->where('admin_verify', 0)->get();
-        }
+        $data = $stocks->get();
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()

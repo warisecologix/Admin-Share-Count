@@ -1,5 +1,8 @@
 @extends('layouts.admin')
+@section('css')
+@show
 @section('content')
+
     <div class="content-wrapper">
         <section class="content-header">
             <div class="container-fluid">
@@ -19,33 +22,34 @@
                                 <h3 class="card-title">Filters</h3>
                             </div>
                             <div class="card-body">
-                                <form method="post" action="{{route('filter')}}">
-                                    @csrf
+                                <form  action="javascript:void(0);">
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <input type="email" class="form-control" name="email"
+                                                <input type="email" class="form-control" name="email" id="email"
                                                        placeholder="Enter email">
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select class="form-control select2bs4" name="status">
-                                                    <option value="3">Select Status</option>
+                                                <select class="form-control select2bs4" name="status" id="status">
+                                                    <option value="3" selected>Select Status</option>
                                                     <option value="2">All</option>
-                                                    <option value="1">Verify</option>
+                                                    <option value="1" >Verify</option>
                                                     <option value="0">Un-Verify</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <input type="text" class="form-control daterange"  name="daterange"
+                                                <input type="text" class="form-control daterange" name="daterange"
                                                        id="reservation"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
-                                            <button type="submit" class="btn btn-success"> Search</button>
+                                            <button type="button" class="btn btn-success" onclick="reDrawDataTable()">
+                                                Search
+                                            </button>
                                             <button type="submit" class="btn btn-info"> Clear</button>
 
                                         </div>
@@ -55,7 +59,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -63,9 +66,10 @@
                                 <h3 class="card-title">Stock Details</h3>
                             </div>
                             <div class="card-body">
-                                <table id="user_logs_table" class="table table-bordered table-striped">
+                                <table id="stocks_table" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>User Name</th>
                                         <th>Company Name</th>
                                         <th>No of Shares</th>
@@ -75,40 +79,9 @@
                                         <th>Action</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="divid">
-                                    @foreach($stocks as $stock)
-                                        <tr id="stock{{$loop->index}}">
-                                            <td>{{$stock->user->first_name . " " . $stock->user->last_name  ?? "-"}}</td>
-                                            <td>{{$stock->company->company_name  ?? "-"}}</td>
-                                            <td>{{$stock->no_shares_own  ?? "-"}}</td>
-                                            <td>{{$stock->brokage_name  ?? "-"}}</td>
-                                            <td>{{$stock->date_purchase  ?? "-"}}</td>
-                                            <td>{{$stock->admin_verify == 0 ? "Un-Verified" : "Verify" }}</td>
-                                            <td>
-                                                @if($stock->admin_verify == 0)
-                                                    <button class="btn btn-info" onclick="updateStatus({{$stock->id}})">
-                                                        Verify
-                                                    </button>
-                                                @elseif($stock->admin_verify == 1)
-                                                    <button class="btn btn-success"
-                                                            onclick="updateStatus({{$stock->id}})">Un-Verify
-                                                    </button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    <tbody>
+
                                     </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>User Name</th>
-                                        <th>Company Name</th>
-                                        <th>No of Shares</th>
-                                        <th>Brokage Name</th>
-                                        <th>Purchase Date</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -123,20 +96,79 @@
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
     <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-
     <script>
-        $(function () {
-            $("#user_logs_table").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["csv", "excel", "print"]
-            }).buttons().container().appendTo('#user_logs_table_wrapper .col-md-6:eq(0)');
-        });
+        let stock_table;
+        function reDrawDataTable() {
+            $('#stocks_table').DataTable().clear().destroy();
+            stocks_filter_data_table()
+        }
+
         $(function () {
             $('.select2').select2()
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             });
             $('#reservation').daterangepicker();
+            $("#reservation").val('');
+
         });
+
+        function updateStatus(id) {
+            var formData = {
+                stock_id: id,
+                "_token": "{{ csrf_token() }}",
+            };
+            var type = "POST";
+            $.ajax({
+                type: type,
+                url: "{{route('update_stock_status')}}",
+                data: formData,
+                dataType: 'json',
+                success: function (data) {
+                    $('#stocks_table').DataTable().ajax.reload();
+                },
+            });
+        }
+    </script>
+    <script type="text/javascript">
+     function stocks_filter_data_table() {
+         var formData = {
+             daterange: $("#reservation").val(),
+             email: $("#email").val(),
+             status: $("#status").val(),
+             "_token": "{{ csrf_token() }}",
+         };
+         console.log("--*-*-*-*-*-*-*-*-*-*-*")
+         console.log(formData)
+         stock_table = $('#stocks_table').DataTable({
+             processing: true,
+             serverSide: true,
+             "responsive": true,
+             "lengthChange": false,
+             "autoWidth": false,
+             // dom: 'Bfrtip',
+             // buttons: [
+             //     'excel',
+             //     'pdf',
+             //     'print'
+             // ],
+             ajax: {
+                 url: "{{route('stocks_filter_data_table')}}",
+                 type: "POST",
+                 data: formData,
+             },
+             columns: [
+                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                 {data: 'user_name', name: 'user_name'},
+                 {data: 'company_name', name: 'company_name'},
+                 {data: 'no_shares_own', name: 'no_shares_own'},
+                 {data: 'brokage_name', name: 'brokage_name'},
+                 {data: 'date_purchase', name: 'date_purchase'},
+                 {data: 'admin_verify', name: 'admin_verify'},
+                 {data: 'action', name: 'action', orderable: false, searchable: false},
+             ],
+         });
+     }
+     stocks_filter_data_table();
     </script>
 @stop

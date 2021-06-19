@@ -86,7 +86,7 @@
                 //     'print'
                 // ],
                 ajax: {
-                    url: "{{route('stocks_filter_data_table')}}",
+                    url: "{{route('user_stocks_filter_data_table')}}",
                     type: "POST",
                     data: formData,
                 },
