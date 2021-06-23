@@ -14,7 +14,7 @@ class StockLogsController extends Controller
 {
     public function index()
     {
-        $logs = UserStockLogs::all();
+        $logs = UserStockLogs::select('country','country_code')->groupBy('country','country_code')->get();
         return view('admin.logs.index', compact('logs'));
     }
 
